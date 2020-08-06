@@ -116,3 +116,8 @@ bool Green_Rain::isInitialized()
     return(initialized);
   
 }
+
+void Green_Rain::modifyAnimationParameters()
+{
+    //return(initialized);
+}

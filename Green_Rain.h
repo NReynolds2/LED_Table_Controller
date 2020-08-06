@@ -22,9 +22,13 @@ class Green_Rain{
     int pot1_pin;
     int frequency;
     bool initialized;
+    byte r;
+    byte g;
+    byte b;
+    
     CRGB colorsArray[NUM_LEDS];
     void initColorArray();
-    
+
     
   public:
     Green_Rain();
@@ -32,6 +36,7 @@ class Green_Rain{
     void loopLogic(CRGB leds[]);
     void Glitter(CRGB leds[]);
     bool isInitialized();
+    void modifyAnimationParameters();
 };
 //---------------------------------------------------
 #endif
