@@ -26,10 +26,6 @@ class Green_Rain{
     byte g;
     byte b;
     
-    CRGB colorsArray[NUM_LEDS];
-    void initColorArray();
-
-    
   public:
     Green_Rain();
     void init();

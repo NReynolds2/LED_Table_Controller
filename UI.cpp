@@ -68,7 +68,7 @@ void UI::readState()
  
   
   //scan encoders
-  
+  //tbd
 }
 
 void UI::resetMoved() 
