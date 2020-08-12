@@ -66,6 +66,10 @@ void loop()
         }
       else
         {
+          if((ui.pot1moved) || (ui.pot2moved))
+          {
+            green_rain.modifyAnimationParameters(ui.pot1Val, ui.pot2Val);
+          }
           green_rain.loopLogic(leds);
         }
       

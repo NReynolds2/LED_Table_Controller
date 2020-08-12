@@ -9,10 +9,14 @@
 
 
 //----------- Defines -------------------------------
-#define FRAMES_PER_SECOND 50        //it takes ~20ms to push all the data to all 579 LEDs so the hard limit is ~50fps
-#define rainbowSpeed 100            //bigger = faster rainbow
+#define FRAMES_PER_SECOND               50        //it takes ~20ms to push all the data to all 579 LEDs so the hard limit is ~50fps
 
-const int size = NUM_LEDS / NUM_ROWS; //size of the rainbow, per row of LEDs
+
+#define MAX_FREQ_FOR_TASTEFULNESS       200
+#define MIN_FREQ_FOR_TASTEFULNESS       0
+
+#define MAX_BRIGHTNESS                  255
+#define MIN_BRIGHTNESS                  0
 //---------------------------------------------------
 
 //---------- Classes --------------------------------
@@ -21,6 +25,7 @@ class Green_Rain{
   private:
     int pot1_pin;
     int frequency;
+    int brightness;
     bool initialized;
     byte r;
     byte g;
@@ -32,7 +37,7 @@ class Green_Rain{
     void loopLogic(CRGB leds[]);
     void Glitter(CRGB leds[]);
     bool isInitialized();
-    void modifyAnimationParameters();
+    void modifyAnimationParameters(int param1, int param2);
 };
 //---------------------------------------------------
 #endif

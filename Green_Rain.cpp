@@ -12,6 +12,7 @@ void Green_Rain::init()
 {
   initialized = false;
   frequency = 10; //frequency of glitter flashes
+  brightness = 255;
   initialized = true;
 }
 
@@ -31,7 +32,6 @@ void Green_Rain::loopLogic(CRGB leds[])
 
 void Green_Rain::Glitter(CRGB leds[])
 {
-  int ledOffset = millis() * rainbowSpeed / FRAMES_PER_SECOND / 100 % NUM_LEDS ; // 0 - NUM_LEDS, calculates how far the generated table should be offset from the starting position for the given cycle count
 
   int lightToTurnOn[frequency]; //randomly generates which LEDs to turn on
   for (int i = 0; i < frequency; i++) {
@@ -43,7 +43,7 @@ void Green_Rain::Glitter(CRGB leds[])
   }
 
   for (int i = 0; i < frequency; i++) { //turns on LEDs that were selected
-    leds[lightToTurnOn[i]] = CRGB(0,255,0);
+    leds[lightToTurnOn[i]] = CRGB(0,brightness,0);
   }
    
 }//end glitter
@@ -54,7 +54,10 @@ bool Green_Rain::isInitialized()
   
 }
 
-void Green_Rain::modifyAnimationParameters()
+void Green_Rain::modifyAnimationParameters(int param1, int param2)
 {
+    brightness = SCALE(param1,MAX_BRIGHTNESS);
+    frequency = SCALE(param2,MAX_FREQ_FOR_TASTEFULNESS);
+    
     //return(initialized);
 }
