@@ -14,10 +14,12 @@
 //----------- Application Classes -------------------
 #include "UI.h"
 #include "Green_Rain.h"
+#include "Twinkle.h"
 //---------------------------------------------------
 
 //----------- Fast LED Variables --------------------
-CRGB leds[NUM_LEDS];
+//CRGB leds[NUM_LEDS];
+CRGBArray<NUM_LEDS> leds;
 //--------------------------------------------------
 
 
@@ -36,6 +38,7 @@ UI ui(POTENTIOMETER_1_PIN,
       BUTTON_4_PIN);
       
 Green_Rain green_rain;
+Twinkle twinkle;
 //--------------------------------------------------
 
 
@@ -72,14 +75,28 @@ void loop()
           }
           green_rain.loopLogic(leds);
         }
-      
       break;
+      
     case RAINBOW_CYCLE:
       break;
     case RAINBOW_RAIN:
       break;
     case TWINKLE:
+      
+      if(!(twinkle.isInitialized()))
+        {
+          twinkle.init();
+        }
+      else
+        {
+          if((ui.pot1moved) || (ui.pot2moved))
+          {
+            twinkle.modifyAnimationParameters(ui.pot1Val, ui.pot2Val);
+          }
+          twinkle.loopLogic(leds);
+        }
       break;
+      
   }
   
 }
