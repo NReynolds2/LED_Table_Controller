@@ -56,8 +56,13 @@ bool Green_Rain::isInitialized()
 
 void Green_Rain::modifyAnimationParameters(int param1, int param2)
 {
-    brightness = SCALE(param1,MAX_BRIGHTNESS);
-    frequency = SCALE(param2,MAX_FREQ_FOR_TASTEFULNESS);
     
-    //return(initialized);
+    brightness = map(param1, 0, 1023, 0, MAX_BRIGHTNESS);
+    frequency = map(param2, 0, 1023, 0, MAX_FREQ_FOR_TASTEFULNESS);
+
+#ifdef DEBUG
+    Serial.println("frequency: " + frequency);
+    Serial.println("brightness: " + brightness);
+#endif
+
 }

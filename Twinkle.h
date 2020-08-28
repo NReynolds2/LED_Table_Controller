@@ -134,7 +134,7 @@ static const TProgmemRGBPalette16 Ice_p FL_PROGMEM =
 // Add or remove palette names from this list to control which color
 // palettes are used, and in what order.
 static const TProgmemRGBPalette16* ActivePaletteList[] = {
-  &RetroC9_p,
+  //&RetroC9_p,
   &BlueWhite_p,
   &RainbowColors_p,
   &FairyLight_p,

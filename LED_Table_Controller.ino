@@ -48,6 +48,8 @@ void setup()
 {
   delay(3000); //arbitrary
 
+  Serial.begin(9600);
+  
   ui.init();
   
   LEDS.addLeds<LED_TYPE, LED_DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);

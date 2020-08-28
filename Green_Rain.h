@@ -12,7 +12,7 @@
 #define FRAMES_PER_SECOND               50        //it takes ~20ms to push all the data to all 579 LEDs so the hard limit is ~50fps
 
 
-#define MAX_FREQ_FOR_TASTEFULNESS       200
+#define MAX_FREQ_FOR_TASTEFULNESS       70
 #define MIN_FREQ_FOR_TASTEFULNESS       0
 
 #define MAX_BRIGHTNESS                  255
