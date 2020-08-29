@@ -48,7 +48,9 @@ void setup()
 {
   delay(3000); //arbitrary
 
+#ifdef DEBUG_MODE
   Serial.begin(57600);
+#endif
   
   ui.init();
   

@@ -6,6 +6,10 @@
 //#define UI_DEBUG
 //#define GREEN_RAIN_DEBUG
 
+#if defined(UI_DEBUG) || (GREEN_RAIN_DEBUG)
+#define DEBUG_MODE
+#warning "Debug Mode is ON"
+#endif
 
 //---------------------------------------------------
 
