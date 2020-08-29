@@ -16,6 +16,7 @@
 #include "UI.h"
 #include "Green_Rain.h"
 #include "Twinkle.h"
+#include "Fire.h"
 //---------------------------------------------------
 
 //----------- Fast LED Variables --------------------
