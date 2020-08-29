@@ -48,7 +48,7 @@ void setup()
 {
   delay(3000); //arbitrary
 
-  Serial.begin(9600);
+  Serial.begin(57600);
   
   ui.init();
   

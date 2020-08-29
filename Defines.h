@@ -1,6 +1,13 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
+//----------- Output Serial Debug Info --------------
+
+//#define UI_DEBUG
+//#define GREEN_RAIN_DEBUG
+
+
+//---------------------------------------------------
 
 
 //----------- FastLED Defines -----------------------

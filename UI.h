@@ -9,6 +9,9 @@
 //----------- UI Defines ----------------------------
 #define ALLOWABLE_ADC_ERROR_WHEN_UNMOVED        3 //ADC Counts
 
+#ifdef UI_DEBUG
+#define DEBUG_UPDATE_RATE                       1000 //mS
+#endif
 //---------------------------------------------------
 
 //---------- Classes --------------------------------
@@ -30,6 +33,10 @@ class UI{
     //vars
     int pot1PreviousVal;
     int pot2PreviousVal;
+
+#ifdef UI_DEBUG
+    unsigned long debugCounter;
+#endif
     
   public:
     UI(int pot1pin,

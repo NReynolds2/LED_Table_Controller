@@ -34,6 +34,11 @@ void UI::init()
   //compensate for unitialized previousVal variable
   pot1moved = false;
   pot2moved = false;
+
+#ifdef UI_DEBUG
+    debugCounter = millis();
+#endif
+
 }
 
 
@@ -65,10 +70,28 @@ void UI::readState()
   rot2ButtonPressed = !(digitalRead(rot2_button_pin));
   button3Pressed = !(digitalRead(button_3_pin));
   button4Pressed = !(digitalRead(button_4_pin));
- 
-  
+
   //scan encoders
   //tbd
+  
+#ifdef UI_DEBUG
+  if((millis() - debugCounter) >= DEBUG_UPDATE_RATE)
+  {
+    Serial.println("pot1Val: " + pot1Val);
+    Serial.println("pot2Val: " + pot2Val);
+  
+    Serial.println("pot1moved: " + pot1moved);
+    Serial.println("pot2moved: " + pot2moved);
+    
+    Serial.println("Button1Pressed: " + rot1ButtonPressed);
+    Serial.println("Button2Pressed: " + rot2ButtonPressed);
+    Serial.println("Button3Pressed: " + button3Pressed);
+    Serial.println("button4Pressed: " + button4Pressed);
+
+    debugCounter = millis();
+  }
+#endif
+
 }
 
 void UI::resetMoved() 
