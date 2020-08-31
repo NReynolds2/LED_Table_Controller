@@ -27,6 +27,14 @@ void UI::init()
 
   pot1Val = 0;
   pot2Val = 0;
+
+  enc1PreviousHigh = digitalRead(rot1_A_pin);
+  enc2PreviousHigh = digitalRead(rot2_A_pin);
+  enc1High = false;
+  enc2High = false;
+
+  enc1State = UNMOVED;
+  enc2State = UNMOVED;
   
   //get initial state
   readState();
@@ -68,7 +76,40 @@ void UI::readState()
  
   
   //scan encoders
-  //tbd
+  enc1State = UNMOVED;
+  enc1High = digitalRead(rot1_A_pin);
+
+  if (enc1High != enc1PreviousHigh)
+  {
+    if (digitalRead(rot1_B_pin) != enc1High)
+    {
+      enc1State = FORWARD;
+    }
+    else
+    {
+      enc1State = BACKWARD;
+    }
+  }
+  
+  enc2PreviousHigh = enc2High;
+  
+   enc2State = UNMOVED;
+  enc2High = digitalRead(rot2_A_pin);
+
+  if (enc2High != enc2PreviousHigh)
+  {
+    if (digitalRead(rot2_B_pin) != enc2High)
+    {
+      enc2State = FORWARD;
+    }
+    else
+    {
+      enc2State = BACKWARD;
+    }
+  }
+  
+  enc2PreviousHigh = enc2High;
+  
 }
 
 void UI::resetMoved() 

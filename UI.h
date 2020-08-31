@@ -9,6 +9,7 @@
 //----------- UI Defines ----------------------------
 #define ALLOWABLE_ADC_ERROR_WHEN_UNMOVED        3 //ADC Counts
 
+enum ENCODER_STATE { UNMOVED, FORWARD, BACKWARD };
 //---------------------------------------------------
 
 //---------- Classes --------------------------------
@@ -30,6 +31,11 @@ class UI{
     //vars
     int pot1PreviousVal;
     int pot2PreviousVal;
+    bool enc1PreviousHigh;
+    bool enc2PreviousHigh;
+    bool enc1High;
+    bool enc2High;
+    
     
   public:
     UI(int pot1pin,
@@ -46,8 +52,8 @@ class UI{
     void readState();
     void resetMoved();
     
-    int pot1Val; //"Brightness"
-    int pot2Val; //"Speed"
+    int pot1Val; 
+    int pot2Val; 
 
     bool pot1moved;
     bool pot2moved;
@@ -56,6 +62,9 @@ class UI{
     bool rot2ButtonPressed;
     bool button3Pressed;
     bool button4Pressed;
+
+    enum ENCODER_STATE enc1State;
+    enum ENCODER_STATE enc2State;
     
 };
 //---------------------------------------------------
