@@ -19,16 +19,19 @@ class Solid_Fill{
     int pot1_pin;
     int brightness;
     enum BASIC_COLORS color;
+    bool initialized;
+    bool needsUpdate;
     byte r;
     byte g;
     byte b;
     
   public:
     Solid_Fill();
-    void init(CRGB leds[]);
+    void init();//void init(CRGB leds[]);
     void loop(CRGB leds[]);
     void fill(CRGB leds[]);
     bool isInitialized();
+    void changeBrightness(int pot1);
     void changeColor(bool forward);
 };
 //---------------------------------------------------

@@ -1,14 +1,14 @@
 //Green Rain Matrix Animation 
 //adapted from https://pastebin.com/tTuRDBYw 
 
-#include "Green_Rain.h"
+#include "Solid_Fill.h"
 
 Solid_Fill::Solid_Fill()
 {
   
 }
 
-void Solid_Fill::init(CRGB leds[]) 
+void Solid_Fill::init() 
 {
   initialized = false;
   
@@ -21,14 +21,16 @@ void Solid_Fill::init(CRGB leds[])
   initialized = true;
   
   //light table
-  fill(leds);
+  //fill(leds);
   
 }
 
 void Solid_Fill::loop(CRGB leds[])
 {
-  //This function does not animate
-  fastLED.show();
+  //!!! fill with the same color data every cycle, shouldn't hurt anything
+
+  fill(leds);
+  FastLED.show();
 }
 
 void Solid_Fill::fill(CRGB leds[])
@@ -40,34 +42,82 @@ void Solid_Fill::fill(CRGB leds[])
   }
 }//end fill
 
-bool SOLID_FILL::isInitialized()
+bool Solid_Fill::isInitialized()
 {
     return(initialized);
   
 }
 
 
-//using brightness potentiometer and color-pallette encoder
-void Solid_Fill::changeColor(int pot, bool forward)
-{
-    //scale brightness from potentiometer range
-    brightness = map(pot, 0, 1023, 0, 255);
 
-    
+//using brightness potentiometer and color-pallette encoder
+void Solid_Fill::changeBrightness(int pot1)
+{
+  //scale brightness from potentiometer range
+  brightness = map(pot1, 0, 1023, 0, 255);
+}
+
+void Solid_Fill::changeColor(bool forward)
+{   
     //choose color from basic set, so brightness can scale at 255
     if(forward)
     {
-      color++;
-      if(color > NUM_BASIC_COLORS-1)
+      switch (color)
       {
-        color = 1;
+        case OFF:
+          color = RED;  
+          break;
+        case RED:
+          color = GREEN;  
+          break;
+        case GREEN:
+          color = YELLOW;
+          break;
+        case YELLOW:
+          color = BLUE;  
+          break;
+        case BLUE:
+          color = MAGENTA;  
+          break;
+        case MAGENTA:
+          color = CYAN;
+          break;
+        case CYAN:
+          color = WHITE;
+          break;
+        case WHITE:
+          color = OFF;
+          break;
       }
+      
     }else
     {
-      color--;
-      if(color < 0)
+      switch (color)
       {
-        color = NUM_BASIC_COLORS-1;
+        case OFF:
+          color = WHITE;  
+          break;
+        case RED:
+          color = OFF;  
+          break;
+        case GREEN:
+          color = RED;
+          break;
+        case YELLOW:
+          color = GREEN;  
+          break;
+        case BLUE:
+          color = YELLOW;  
+          break;
+        case MAGENTA:
+          color = BLUE;
+          break;
+        case CYAN:
+          color = MAGENTA;
+          break;
+        case WHITE:
+          color = CYAN;
+          break;
       }
     }
     
@@ -115,8 +165,6 @@ void Solid_Fill::changeColor(int pot, bool forward)
         break;
     }
     
-    //push new color to the LEDs
-    fill(leds);
     
 #ifdef DEBUG
     Serial.println("color: " + color);

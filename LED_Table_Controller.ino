@@ -15,6 +15,7 @@
 #include "UI.h"
 #include "Green_Rain.h"
 #include "Twinkle.h"
+#include "Solid_Fill.h"
 //---------------------------------------------------
 
 //----------- Fast LED Variables --------------------
@@ -41,6 +42,7 @@ UI ui(POTENTIOMETER_1_PIN,
       
 Green_Rain green_rain;
 Twinkle twinkle;
+Solid_Fill solid;
 //--------------------------------------------------
 
 
@@ -69,7 +71,8 @@ void loop()
   }
   else
   {
-    animation_state = TWINKLE;
+    //!!! quick and dirty, replace twinkle
+    animation_state = SOLID_FILL;
   }
 
   if(((millis()-startTime) > 3000) && (ui.button4Pressed))
@@ -122,6 +125,25 @@ void loop()
             twinkle.loopLogic(leds);
           }
         break;
+
+        case SOLID_FILL:
+          if(!(solid.isInitialized()))
+          {
+            solid.init();
+          }
+          else
+          {
+            if((ui.pot1moved))
+            {
+              solid.changeBrightness(ui.pot1Val);
+            }
+            if((enc2State==FORWARD) || (enc2State==BACKWARD))
+            {
+              solid.changeColor((enc2State==FORWARD));
+            }
+            solid.loop(leds);
+          }
+          break;
         
     }
   }
