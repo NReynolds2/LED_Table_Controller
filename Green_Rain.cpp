@@ -60,7 +60,7 @@ void Green_Rain::modifyAnimationParameters(int param1, int param2)
     brightness = map(param1, 0, 1023, 0, MAX_BRIGHTNESS);
     frequency = map(param2, 0, 1023, 0, MAX_FREQ_FOR_TASTEFULNESS);
 
-#ifdef GREEN_RAIN_DEBUG
+#ifdef DEBUG
     Serial.println("frequency: " + frequency);
     Serial.println("brightness: " + brightness);
 #endif
