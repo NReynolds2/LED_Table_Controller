@@ -7,11 +7,11 @@ UI::UI(int pot1pin, int pot2pin, int rot1ButtonPin, int rot1Apin, int rot1Bpin, 
   this->pot1_pin = pot1pin;
   this->pot2_pin = pot2pin;
   this->rot1_button_pin = rot1ButtonPin;
-  this->rot1_A_pin = rot1_A_pin;
-  this->rot1_B_pin = rot1_B_pin;
+  this->rot1_A_pin = rot1Apin;
+  this->rot1_B_pin = rot1Bpin;
   this->rot2_button_pin = rot2ButtonPin;
-  this->rot2_A_pin = rot2_A_pin;
-  this->rot2_B_pin = rot2_B_pin;
+  this->rot2_A_pin = rot2Apin;
+  this->rot2_B_pin = rot2Bpin;
   this->button_3_pin = button3Pin;
   this->button_4_pin = button4Pin;
   
@@ -34,12 +34,10 @@ void UI::init()
   pot1Val = 0;
   pot2Val = 0;
 
-  enc1PreviousHigh = digitalRead(rot1_A_pin);
-  enc2PreviousHigh = digitalRead(rot2_A_pin);
-  enc1High = false;
-  enc2High = false;
-
+  enc1APreviousVal = digitalRead(rot1_A_pin);
   enc1State = UNMOVED;
+  
+  enc2APreviousVal = digitalRead(rot2_A_pin);
   enc2State = UNMOVED;
   
   //get initial state
@@ -85,11 +83,13 @@ void UI::readState()
 
   //first encoder
   enc1State = UNMOVED;
-  enc1High = digitalRead(rot1_A_pin);
+  enc1AVal = digitalRead(rot1_A_pin);
 
-  if (enc1High != enc1PreviousHigh)
+  if (enc1AVal != enc1APreviousVal)
   {
-    if (digitalRead(rot1_B_pin) != enc1High)
+    enc1BVal = digitalRead(rot1_B_pin);
+    
+    if ( enc1BVal != enc1AVal)
     {
       enc1State = FORWARD;
     }
@@ -99,14 +99,18 @@ void UI::readState()
     }
   }
   
-  enc1PreviousHigh = enc1High;
+  enc1APreviousVal = enc1AVal;
 
+
+  //second encoder
   enc2State = UNMOVED;
-  enc2High = digitalRead(rot2_A_pin);
+  enc2AVal = digitalRead(rot2_A_pin);
 
-  if (enc2High != enc2PreviousHigh)
+  if (enc2AVal != enc2APreviousVal)
   {
-    if (digitalRead(rot2_B_pin) != enc2High)
+    enc2BVal = digitalRead(rot2_B_pin);
+    
+    if ( enc2BVal != enc2AVal)
     {
       enc2State = FORWARD;
     }
@@ -116,7 +120,7 @@ void UI::readState()
     }
   }
   
-  enc2PreviousHigh = enc2High;
+  enc2APreviousVal = enc2AVal;
 
   
 //#ifdef UI_DEBUG
@@ -143,10 +147,13 @@ void UI::readState()
     Serial.print("\nbutton4Pressed: ");
     Serial.print(button4Pressed, DEC);
 */
-    Serial.print("\n\nenc2AHigh: " + enc2High);
-    Serial.print(enc2High, DEC);
-    Serial.print("\nenc2BHigh: ");
-    Serial.print(digitalRead(rot2_B_pin), DEC);
+    Serial.print("\n\nenc1AVal: " + enc1AVal);
+    Serial.print("\nenc1BVal: " + enc1BVal);
+    Serial.print("\nenc1State: ");
+    Serial.print(enc1State, DEC);
+    
+    Serial.print("\n\nenc2AVal: " + enc2AVal);
+    Serial.print("\nenc2BVal: " + enc2BVal);
     Serial.print("\nenc2State: ");
     Serial.print(enc2State, DEC);
 

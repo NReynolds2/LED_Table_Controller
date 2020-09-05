@@ -35,10 +35,12 @@ class UI{
     //vars
     int pot1PreviousVal;
     int pot2PreviousVal;
-    bool enc1PreviousHigh;
-    bool enc2PreviousHigh;
-    bool enc1High;
-    bool enc2High;
+    int enc1APreviousVal;
+    int enc2APreviousVal;
+    int enc1AVal;
+    int enc1BVal;
+    int enc2AVal;
+    int enc2BVal;
 
 //#ifdef UI_DEBUG
     unsigned long debugCounter;

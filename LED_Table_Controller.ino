@@ -27,7 +27,7 @@ CRGBArray<NUM_LEDS> leds;
 enum ANIMATION_STATE animation_state = GREEN_RAIN;
 boolean pauseAnimation = false;
 unsigned long startTime;
- 
+
 UI ui(POTENTIOMETER_1_PIN,
       POTENTIOMETER_2_PIN,
       ENCODER_1_BUTTON_PIN,
@@ -50,7 +50,7 @@ void setup()
   
 #ifdef DEBUG_MODE
   Serial.begin(57600);
-  Serial.println("test");
+  Serial.println("Serial Test Data:\n\n");
 #endif
    
   ui.init();
