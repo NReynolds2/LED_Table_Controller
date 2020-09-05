@@ -43,11 +43,22 @@ enum ANIMATION_STATE { GREEN_RAIN, TWINKLE };
 
 #define NUM_ANIMATIONS 2
 //--------------------------------------------------
-
+class Animation {
+   protected:
+      
+   public:
+    //animation();
+    virtual void init() = 0;
+    virtual void loopLogic(CRGBSet& L) = 0;
+    virtual bool isInitialized() = 0;
+    virtual void modifyAnimationParameters(int param1, int param2) = 0;
+};
 //------------------ MACROS ------------------------
 
 #define SCALE(value,newScaleMax)                ( ((value)*(newScaleMax)) / 1024)
 //--------------------------------------------------
-//add comment
+
+
+
 
 #endif

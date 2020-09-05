@@ -12,13 +12,13 @@
 //---------------------------------------------------
 
 //----------- Application Classes -------------------
+
 #include "UI.h"
 #include "Green_Rain.h"
 #include "Twinkle.h"
 //---------------------------------------------------
 
 //----------- Fast LED Variables --------------------
-//CRGB leds[NUM_LEDS];
 CRGBArray<NUM_LEDS> leds;
 //--------------------------------------------------
 
@@ -41,12 +41,16 @@ UI ui(POTENTIOMETER_1_PIN,
       
 Green_Rain green_rain;
 Twinkle twinkle;
+Animation *animation[2];
 //--------------------------------------------------
 
 
 void setup()
 {
   delay(3000); //arbitrary
+
+  animation[0] = &green_rain;
+  animation[1] = &twinkle;
   
 #ifdef DEBUG_MODE
   Serial.begin(57600);
