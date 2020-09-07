@@ -40,7 +40,7 @@
 #define BUTTON_4_PIN              52
 
 
-#define NUM_ANIMATIONS 2
+#define NUM_ANIMATIONS 3
 //--------------------------------------------------
 
 //-------------------- Classes ---------------------

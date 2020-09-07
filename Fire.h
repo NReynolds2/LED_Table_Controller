@@ -25,7 +25,7 @@
 //---------------------------------------------------
 
 //---------- Classes --------------------------------
-class Fire{
+class Fire: public Animation{
   
   private:
     int frequency;
@@ -35,8 +35,8 @@ class Fire{
   public:
     Fire();
     void init();
-    void loopLogic(CRGB leds[]);
-    void renderAnimation(CRGB leds[]);
+    void loopLogic(CRGBSet& L);
+    void renderAnimation(CRGBSet& L);
     bool isInitialized();
     void modifyAnimationParameters(int param1, int param2);
 };

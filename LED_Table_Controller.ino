@@ -42,10 +42,12 @@ UI ui(POTENTIOMETER_1_PIN,
       
 Green_Rain green_rain;
 Twinkle twinkle;
+Fire fire;
 
 Animation *animation[NUM_ANIMATIONS] = {
   &green_rain,
-  &twinkle
+  &twinkle,
+  &fire
   };
   
 //--------------------------------------------------

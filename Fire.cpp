@@ -13,16 +13,16 @@ void Fire::init()
   initialized = true;
 }
 
-void Fire::loopLogic(CRGB leds[])
+void Fire::loopLogic(CRGBSet& L)
 {
   
-  renderAnimation(leds);
+  renderAnimation(L);
   FastLED.show(); // display this frame
   FastLED.delay(1000 / FRAMES_PER_SECOND);
    
 }//end loopLogic
 
-void Fire::renderAnimation(CRGB leds[])
+void Fire::renderAnimation(CRGBSet& L)
 {
   static byte heat[FLAME_HEIGHT];
 
@@ -52,21 +52,21 @@ void Fire::renderAnimation(CRGB leds[])
       int pixelnumber;
         pixelnumber = j;
       
-      leds[pixelnumber] = color;
-      leds[ROW_OFFSET+ pixelnumber - 1] = color;
-      leds[(ROW_OFFSET*2) + pixelnumber] = color;
+      L[pixelnumber] = color;
+      L[ROW_OFFSET+ pixelnumber - 1] = color;
+      L[(ROW_OFFSET*2) + pixelnumber] = color;
 
-      leds[((NUM_LEDS-1) - pixelnumber)] = color;
-      leds[(NUM_LEDS-1) - (ROW_OFFSET+ pixelnumber) - 1] = color;
-      leds[(NUM_LEDS-1) - ((ROW_OFFSET*2) + pixelnumber)] = color;
+      L[((NUM_LEDS-1) - pixelnumber)] = color;
+      L[(NUM_LEDS-1) - (ROW_OFFSET+ pixelnumber) - 1] = color;
+      L[(NUM_LEDS-1) - ((ROW_OFFSET*2) + pixelnumber)] = color;
 
-      leds[CORNER_OFFSET + pixelnumber] = color;
-      leds[CORNER_OFFSET + ROW_OFFSET+ pixelnumber - 1] = color;
-      leds[CORNER_OFFSET + (ROW_OFFSET*2) + pixelnumber] = color;
+      L[CORNER_OFFSET + pixelnumber] = color;
+      L[CORNER_OFFSET + ROW_OFFSET+ pixelnumber - 1] = color;
+      L[CORNER_OFFSET + (ROW_OFFSET*2) + pixelnumber] = color;
 
-      //leds[CORNER_OFFSET + ((NUM_LEDS-1) - pixelnumber)] = color;
-      leds[CORNER_OFFSET + (NUM_LEDS-1) - (ROW_OFFSET+ pixelnumber)] = color;
-      leds[CORNER_OFFSET + (NUM_LEDS-1) - ((ROW_OFFSET*2) + pixelnumber)] = color;
+      //L[CORNER_OFFSET + ((NUM_LEDS-1) - pixelnumber)] = color;
+      L[CORNER_OFFSET + (NUM_LEDS-1) - (ROW_OFFSET+ pixelnumber)] = color;
+      L[CORNER_OFFSET + (NUM_LEDS-1) - ((ROW_OFFSET*2) + pixelnumber)] = color;
     }
 }
 
