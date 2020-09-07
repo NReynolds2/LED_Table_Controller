@@ -16,12 +16,12 @@ void Green_Rain::init()
   initialized = true;
 }
 
-void Green_Rain::loopLogic(CRGB leds[])
+void Green_Rain::loopLogic(CRGBSet& L)
 {
   //a timer is used to set a maximum fps
   unsigned long start = millis(); //start timer
   FastLED.show();
-  Glitter(leds); //randomly lights up LEDs in different colors
+  Glitter(L); //randomly lights up LEDs in different colors
   
   unsigned long delta = millis() - start; //end of timer
   if ( 1000 / FRAMES_PER_SECOND > delta) { //adds pause to ensure that fps is at or below the defined fps
@@ -30,7 +30,7 @@ void Green_Rain::loopLogic(CRGB leds[])
    
 }//end loopLogic
 
-void Green_Rain::Glitter(CRGB leds[])
+void Green_Rain::Glitter(CRGBSet& L)
 {
 
   int lightToTurnOn[frequency]; //randomly generates which LEDs to turn on
@@ -39,11 +39,11 @@ void Green_Rain::Glitter(CRGB leds[])
   }
 
   for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i].fadeToBlackBy(35);
+    L[i].fadeToBlackBy(35);
   }
 
   for (int i = 0; i < frequency; i++) { //turns on LEDs that were selected
-    leds[lightToTurnOn[i]] = CRGB(0,brightness,0);
+    L[lightToTurnOn[i]] = CRGB(0,brightness,0);
   }
    
 }//end glitter

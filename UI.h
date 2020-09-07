@@ -9,6 +9,11 @@
 //----------- UI Defines ----------------------------
 #define ALLOWABLE_ADC_ERROR_WHEN_UNMOVED        3 //ADC Counts
 
+//#ifdef UI_DEBUG
+#define DEBUG_UPDATE_RATE                       3000 //mS
+//#endif
+
+enum ENCODER_STATE { UNMOVED, FORWARD, BACKWARD };
 //---------------------------------------------------
 
 //---------- Classes --------------------------------
@@ -30,6 +35,17 @@ class UI{
     //vars
     int pot1PreviousVal;
     int pot2PreviousVal;
+    int enc1APreviousVal;
+    int enc2APreviousVal;
+    int enc1AVal;
+    int enc1BVal;
+    int enc2AVal;
+    int enc2BVal;
+
+//#ifdef UI_DEBUG
+    unsigned long debugCounter;
+//#endif
+    
     
   public:
     UI(int pot1pin,
@@ -56,6 +72,9 @@ class UI{
     bool rot2ButtonPressed;
     bool button3Pressed;
     bool button4Pressed;
+
+    enum ENCODER_STATE enc1State;
+    enum ENCODER_STATE enc2State;
     
 };
 //---------------------------------------------------

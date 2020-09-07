@@ -27,7 +27,7 @@ CRGBArray<NUM_LEDS> leds;
 enum ANIMATION_STATE animation_state = GREEN_RAIN;
 boolean pauseAnimation = false;
 unsigned long startTime;
- 
+
 UI ui(POTENTIOMETER_1_PIN,
       POTENTIOMETER_2_PIN,
       ENCODER_1_BUTTON_PIN,
@@ -47,9 +47,12 @@ Twinkle twinkle;
 void setup()
 {
   delay(3000); //arbitrary
-
-  Serial.begin(9600);
   
+#ifdef DEBUG_MODE
+  Serial.begin(57600);
+  Serial.println("Serial Test Data:\n\n");
+#endif
+   
   ui.init();
   
   LEDS.addLeds<LED_TYPE, LED_DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
@@ -62,15 +65,32 @@ void loop()
   //Read UI
   ui.readState();
   
-  //temporary, for testing:
-  if(ui.button3Pressed)
+
+  if(ui.enc1State == FORWARD)
   {
-    animation_state = GREEN_RAIN;
+    animation_state = (ANIMATION_STATE)(animation_state + 1);
+
+    if(animation_state > (NUM_ANIMATIONS - 1))
+    {
+      animation_state = (ANIMATION_STATE)0;
+    }
   }
-  else
+  else if(ui.enc1State == BACKWARD)
   {
-    animation_state = TWINKLE;
+    if(animation_state == 0)
+    {
+      animation_state = (ANIMATION_STATE)(NUM_ANIMATIONS - 1);
+    }
+    
+    if(animation_state > 0)
+    {
+    animation_state = (ANIMATION_STATE)(animation_state - 1);
+    }
+    
   }
+  
+  //animation_state = GREEN_RAIN;
+  
 
   if(((millis()-startTime) > 3000) && (ui.button4Pressed))
   {
@@ -85,8 +105,8 @@ void loop()
   {
     switch (animation_state)
     {
-      case FIRE:
-        break;
+      //case FIRE:
+      //  break;
       case GREEN_RAIN:
       
         if(!(green_rain.isInitialized()))
@@ -103,10 +123,10 @@ void loop()
           }
         break;
         
-      case RAINBOW_CYCLE:
-        break;
-      case RAINBOW_RAIN:
-        break;
+      //case RAINBOW_CYCLE:
+      //  break;
+      //case RAINBOW_RAIN:
+      //  break;
       case TWINKLE:
         
         if(!(twinkle.isInitialized()))

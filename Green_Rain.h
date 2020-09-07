@@ -34,8 +34,8 @@ class Green_Rain{
   public:
     Green_Rain();
     void init();
-    void loopLogic(CRGB leds[]);
-    void Glitter(CRGB leds[]);
+    void loopLogic(CRGBSet& L);
+    void Glitter(CRGBSet& L);
     bool isInitialized();
     void modifyAnimationParameters(int param1, int param2);
 };
