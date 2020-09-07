@@ -39,10 +39,12 @@
 #define BUTTON_3_PIN              51
 #define BUTTON_4_PIN              52
 
-enum ANIMATION_STATE { GREEN_RAIN, TWINKLE };
 
 #define NUM_ANIMATIONS 2
 //--------------------------------------------------
+
+//-------------------- Classes ---------------------
+
 class Animation {
    protected:
       
@@ -53,12 +55,8 @@ class Animation {
     virtual bool isInitialized() = 0;
     virtual void modifyAnimationParameters(int param1, int param2) = 0;
 };
-//------------------ MACROS ------------------------
 
-#define SCALE(value,newScaleMax)                ( ((value)*(newScaleMax)) / 1024)
 //--------------------------------------------------
-
-
 
 
 #endif
