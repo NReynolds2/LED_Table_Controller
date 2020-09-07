@@ -123,7 +123,7 @@ void UI::readState()
   enc2APreviousVal = enc2AVal;
 
   
-//#ifdef UI_DEBUG
+#ifdef UI_DEBUG
   if((millis() - debugCounter) >= DEBUG_UPDATE_RATE)
   {
     /*
@@ -159,7 +159,7 @@ void UI::readState()
 
     debugCounter = millis();
  }
-//#endif
+#endif
 
   
 }
