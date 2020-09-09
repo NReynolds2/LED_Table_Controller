@@ -27,6 +27,7 @@ CRGBArray<NUM_LEDS> leds;
 //----------- Application Variables -----------------
 boolean pauseAnimation = false;
 unsigned long startTime;
+unsigned long prevReadUITime;
 int activeAnimationNumber;
 
 UI ui(POTENTIOMETER_1_PIN,
@@ -67,48 +68,56 @@ void setup()
   LEDS.addLeds<LED_TYPE, LED_DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(MAX_BRIGHTNESS);
   startTime = millis();
+  prevReadUITime = millis();
   activeAnimationNumber = 0;
 }
 
 void loop()
 {
-  //Read UI
-  ui.readState();
-
-
-  //if enocder has moved, modifying what animation to show:
-  if(ui.enc1State == FORWARD)
+  //scan UI every (TIME_BETWEEN_UI_SCANS) mS:
+  if(((millis()-prevReadUITime) > TIME_BETWEEN_UI_SCANS))
   {
-    activeAnimationNumber++;
-
-    if(activeAnimationNumber > (NUM_ANIMATIONS - 1))
+    //Read UI
+    ui.readState();
+    
+    //if enocder has moved, modifying what animation to show:
+    if(ui.enc1State == FORWARD)
     {
-      activeAnimationNumber = 0;
-    }
-  }
-  else if(ui.enc1State == BACKWARD)
-  {
-    if(activeAnimationNumber == 0)
-    {
-      activeAnimationNumber = (NUM_ANIMATIONS - 1);
-    }
-    else if(activeAnimationNumber > 0)
-    {
-      activeAnimationNumber--;
-    }
-  }
+      activeAnimationNumber++;
   
-  
-  //modifying pause if button pressed:
-  if(((millis()-startTime) > 3000) && (ui.button4Pressed))
-  {
-    pauseAnimation = true;
-  }
-  else
-  {
-    pauseAnimation = false;
+      if(activeAnimationNumber > (NUM_ANIMATIONS - 1))
+      {
+        activeAnimationNumber = 0;
+      }
+      ui.enc1State = UNMOVED;
+    }
+    else if(ui.enc1State == BACKWARD)
+    {
+      if(activeAnimationNumber == 0)
+      {
+        activeAnimationNumber = (NUM_ANIMATIONS - 1);
+      }
+      else if(activeAnimationNumber > 0)
+      {
+        activeAnimationNumber--;
+      }
+      ui.enc1State = UNMOVED;
+    }
+    
+    //modifying pause if button pressed:
+    if(((millis()-startTime) > 3000) && (ui.button4Pressed))
+    {
+      pauseAnimation = true;
+    }
+    else
+    {
+      pauseAnimation = false;
+    }
+    
+    prevReadUITime = millis();
   }
 
+  
   //initialize animaiton if needed, run loop animaition:
   if(!pauseAnimation)
   {

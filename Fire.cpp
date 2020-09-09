@@ -15,6 +15,11 @@ void Fire::init()
 
 void Fire::loopLogic(CRGBSet& L)
 {
+  //initialize array with black because animation doesn't
+  //update all cells:
+  for (int i = 0; i < NUM_LEDS; i++) {
+    L[i] = CRGB(0,0,0);
+  }
   
   renderAnimation(L);
   FastLED.show(); // display this frame

@@ -40,7 +40,8 @@
 #define BUTTON_4_PIN              52
 
 
-#define NUM_ANIMATIONS 3
+#define NUM_ANIMATIONS            3
+#define TIME_BETWEEN_UI_SCANS     20 //mS
 //--------------------------------------------------
 
 //-------------------- Classes ---------------------
@@ -49,7 +50,7 @@ class Animation {
    protected:
       
    public:
-    //animation();
+   
     virtual void init() = 0;
     virtual void loopLogic(CRGBSet& L) = 0;
     virtual bool isInitialized() = 0;
