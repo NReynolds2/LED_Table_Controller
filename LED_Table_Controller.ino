@@ -12,21 +12,23 @@
 //---------------------------------------------------
 
 //----------- Application Classes -------------------
+
 #include "UI.h"
 #include "Green_Rain.h"
 #include "Twinkle.h"
+#include "Fire.h"
 //---------------------------------------------------
 
 //----------- Fast LED Variables --------------------
-//CRGB leds[NUM_LEDS];
 CRGBArray<NUM_LEDS> leds;
 //--------------------------------------------------
 
 
 //----------- Application Variables -----------------
-enum ANIMATION_STATE animation_state = GREEN_RAIN;
 boolean pauseAnimation = false;
 unsigned long startTime;
+unsigned long prevReadUITime;
+int activeAnimationNumber;
 
 UI ui(POTENTIOMETER_1_PIN,
       POTENTIOMETER_2_PIN,
@@ -41,13 +43,21 @@ UI ui(POTENTIOMETER_1_PIN,
       
 Green_Rain green_rain;
 Twinkle twinkle;
+Fire fire;
+
+Animation *animation[NUM_ANIMATIONS] = {
+  &green_rain,
+  &twinkle,
+  &fire
+  };
+  
 //--------------------------------------------------
 
 
 void setup()
 {
   delay(3000); //arbitrary
-  
+
 #ifdef DEBUG_MODE
   Serial.begin(57600);
   Serial.println("Serial Test Data:\n\n");
@@ -58,91 +68,72 @@ void setup()
   LEDS.addLeds<LED_TYPE, LED_DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(MAX_BRIGHTNESS);
   startTime = millis();
+  prevReadUITime = millis();
+  activeAnimationNumber = 0;
 }
 
 void loop()
 {
-  //Read UI
-  ui.readState();
+  //scan UI every (TIME_BETWEEN_UI_SCANS) mS:
+  if(((millis()-prevReadUITime) > TIME_BETWEEN_UI_SCANS))
+  {
+    //Read UI
+    ui.readState();
+    
+    //if enocder has moved, modifying what animation to show:
+    if(ui.enc1State == FORWARD)
+    {
+      activeAnimationNumber++;
   
-
-  if(ui.enc1State == FORWARD)
-  {
-    animation_state = (ANIMATION_STATE)(animation_state + 1);
-
-    if(animation_state > (NUM_ANIMATIONS - 1))
-    {
-      animation_state = (ANIMATION_STATE)0;
+      if(activeAnimationNumber > (NUM_ANIMATIONS - 1))
+      {
+        activeAnimationNumber = 0;
+      }
+      ui.enc1State = UNMOVED;
     }
-  }
-  else if(ui.enc1State == BACKWARD)
-  {
-    if(animation_state == 0)
+    else if(ui.enc1State == BACKWARD)
     {
-      animation_state = (ANIMATION_STATE)(NUM_ANIMATIONS - 1);
+      if(activeAnimationNumber == 0)
+      {
+        activeAnimationNumber = (NUM_ANIMATIONS - 1);
+      }
+      else if(activeAnimationNumber > 0)
+      {
+        activeAnimationNumber--;
+      }
+      ui.enc1State = UNMOVED;
     }
     
-    if(animation_state > 0)
+    //modifying pause if button pressed:
+    if(((millis()-startTime) > 3000) && (ui.button4Pressed))
     {
-    animation_state = (ANIMATION_STATE)(animation_state - 1);
+      pauseAnimation = true;
+    }
+    else
+    {
+      pauseAnimation = false;
     }
     
-  }
-  
-  //animation_state = GREEN_RAIN;
-  
-
-  if(((millis()-startTime) > 3000) && (ui.button4Pressed))
-  {
-    pauseAnimation = true;
-  }
-  else
-  {
-    pauseAnimation = false;
+    prevReadUITime = millis();
   }
 
+  
+  //initialize animaiton if needed, run loop animaition:
   if(!pauseAnimation)
   {
-    switch (animation_state)
-    {
-      //case FIRE:
-      //  break;
-      case GREEN_RAIN:
-      
-        if(!(green_rain.isInitialized()))
-          {
-            green_rain.init();
-          }
-        else
-          {
-            if((ui.pot1moved) || (ui.pot2moved))
-            {
-              green_rain.modifyAnimationParameters(ui.pot1Val, ui.pot2Val);
-            }
-            green_rain.loopLogic(leds);
-          }
-        break;
+    
+    if(!(animation[activeAnimationNumber]->isInitialized()))
+      {
+        animation[activeAnimationNumber]->init();
+      }
+    else
+      {
+        if((ui.pot1moved) || (ui.pot2moved))
+        {
+          animation[activeAnimationNumber]->modifyAnimationParameters(ui.pot1Val, ui.pot2Val);
+        }
         
-      //case RAINBOW_CYCLE:
-      //  break;
-      //case RAINBOW_RAIN:
-      //  break;
-      case TWINKLE:
-        
-        if(!(twinkle.isInitialized()))
-          {
-            twinkle.init();
-          }
-        else
-          {
-            if((ui.pot1moved) || (ui.pot2moved))
-            {
-              twinkle.modifyAnimationParameters(ui.pot1Val, ui.pot2Val);
-            }
-            twinkle.loopLogic(leds);
-          }
-        break;
-        
-    }
+        animation[activeAnimationNumber]->loopLogic(leds);
+      }
   }
 }

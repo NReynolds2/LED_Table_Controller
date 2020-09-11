@@ -28,7 +28,7 @@
 //---------------------------------------------------
 
 //---------- Classes --------------------------------
-class Twinkle{
+class Twinkle: public Animation{
   
   private:
     bool initialized;

@@ -39,15 +39,25 @@
 #define BUTTON_3_PIN              51
 #define BUTTON_4_PIN              52
 
-enum ANIMATION_STATE { GREEN_RAIN, TWINKLE };
 
-#define NUM_ANIMATIONS 2
+#define NUM_ANIMATIONS            3
+#define TIME_BETWEEN_UI_SCANS     20 //mS
 //--------------------------------------------------
 
-//------------------ MACROS ------------------------
+//-------------------- Classes ---------------------
 
-#define SCALE(value,newScaleMax)                ( ((value)*(newScaleMax)) / 1024)
+class Animation {
+   protected:
+      
+   public:
+   
+    virtual void init() = 0;
+    virtual void loopLogic(CRGBSet& L) = 0;
+    virtual bool isInitialized() = 0;
+    virtual void modifyAnimationParameters(int param1, int param2) = 0;
+};
+
 //--------------------------------------------------
-//add comment
+
 
 #endif

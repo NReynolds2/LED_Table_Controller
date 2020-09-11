@@ -20,7 +20,7 @@
 //---------------------------------------------------
 
 //---------- Classes --------------------------------
-class Green_Rain{
+class Green_Rain: public Animation{
   
   private:
     int pot1_pin;
